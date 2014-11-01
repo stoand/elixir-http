@@ -1,0 +1,2 @@
+all:
+	elixir HttpServer.exs
