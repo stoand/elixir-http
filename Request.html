@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Request</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">http_server v0.0.1 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Request.html">Request</a></div>
+
+      <h1>
+        Request
+        
+      </h1>
+
+      <ul class="summary_links">
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+      </ul>
+
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#data/3">data(connection, loop \\ true, previous_bytes \\ [])</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#header/1">header(connection)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#parse_params/1">parse_params(encoded_params)</a></td>
+  
+    <td class="summary_synopsis"><p>Parses GET or POST parameters from a String into a Map\n
+Arrays can be denoted by adding ‘[]‘ to the end of the variable name</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="data/3">
+    <span class="signature"><strong>data(connection, loop \\ true, previous_bytes \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#data/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"></div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="header/1">
+    <span class="signature"><strong>header(connection)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#header/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"></div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="parse_params/1">
+    <span class="signature"><strong>parse_params(encoded_params)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#parse_params/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Parses GET or POST parameters from a String into a Map\n
+Arrays can be denoted by adding ‘[]‘ to the end of the variable name</p>
+<h2>Examples</h2>
+<pre><code>iex&gt; Request.parse_params &quot;a=0&amp;b[]=1&amp;b[]=2&quot;
+%{&quot;a&quot; =&gt; &quot;0&quot;, &quot;b&quot; =&gt; [&quot;2&quot;, &quot;1&quot;]}</code></pre>
+</div>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>
