@@ -1,4 +1,9 @@
-defmodule Request do
+defmodule HttpServer.Request do
+  alias HttpServer.Request
+
+  @moduledoc """
+  Receives and parses data from an open connection
+  """
 
   @doc """
   Recieve data from a Connection\n
@@ -21,9 +26,6 @@ defmodule Request do
 
   @doc """
   Recieves data once and parses basic header information and request fields\n
-
-  ### Example:
-      path = header(connection).path
 
   Name | Description
   --- | ---
