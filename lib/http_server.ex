@@ -1,4 +1,7 @@
 defmodule HttpServer do
+  @moduledoc """
+  Manages an HTTP connection
+  """
 
   @doc """
   Initialize the Server
