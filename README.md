@@ -1,5 +1,14 @@
 #Elixir Http Server
 
-A Module for handling Web Requests
+## Getting Started
 
-(Documentation)[https://rawgit.com/Arubaruba/elixir-http/master/docs/index.html]
+* [Install Elixir](http://elixir-lang.org/install.html)
+
+* clone repo `git clone git@github.com:Arubaruba/elixir-http.git`
+* run sample app `mix run --no-halt`
+    
+* view server response [http://localhost:3030](http://localhost:3030)
+
+
+
+## [Documentation](https://rawgit.com/Arubaruba/elixir-http/documentation/index.html)
