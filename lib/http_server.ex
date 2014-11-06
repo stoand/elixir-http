@@ -18,7 +18,7 @@ defmodule HttpServer do
     Supervisor.start_link(children, opts)
   end
 
-  defp accept(callback, port) do
+  def accept(callback, port) do
     {:ok, socket} = :gen_tcp.listen(port, [:binary, packet: :line, active: false])
     listen(callback, socket)
   end
@@ -26,6 +26,6 @@ defmodule HttpServer do
   defp listen(callback, socket) do
     {:ok, connection} = :gen_tcp.accept(socket)
     Task.Supervisor.start_child(HttpServer.TaskSupervisor, fn -> callback.(connection) end)
-    listen(socket, callback)
+    listen(callback, socket)
   end
 end
