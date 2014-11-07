@@ -1,31 +1,40 @@
-defmodule HttpServer do
+defmodule Http.Server do
+  alias Http.Server
+  alias Http.Request
+  alias Http.Response
   @moduledoc """
-  Manages an HTTP connection
+  Listens for HTTP connections and calls a callback once a client connects
   """
 
   @doc """
-  Initialize the Server
+  Initialize the server
+
+  ## Examples
+      Server.start(fn(socket) ->
+        Server.Response.header(socket)
+        Server.Response.close(socket, "It works!")
+      end, 3030)
   """
   def start(callback, port) do
-    import Supervisor.Spec
+     import Supervisor.Spec
 
-    children = [
-      supervisor(Task.Supervisor, [[name: HttpServer.TaskSupervisor]]),
-      worker(Task, [HttpServer, :accept, [callback, port]])
-    ]
+     children = [
+       supervisor(Task.Supervisor, [[name: Server.TaskSupervisor]]),
+       worker(Task, [Server, :accept, [callback, port]])
+     ]
 
-    opts = [strategy: :one_for_one, name: HttpServer.Supervisor]
-    Supervisor.start_link(children, opts)
+     Supervisor.start_link(children, [strategy: :one_for_one, name: Server.Supervisor])
   end
 
+  @doc false
   def accept(callback, port) do
-    {:ok, socket} = :gen_tcp.listen(port, [:binary, packet: :line, active: false])
+    {:ok, socket} = :gen_tcp.listen(port, [:binary, packet: :line, active: false, reuseaddr: true])
     listen(callback, socket)
   end
 
   defp listen(callback, socket) do
-    {:ok, connection} = :gen_tcp.accept(socket)
-    Task.Supervisor.start_child(HttpServer.TaskSupervisor, fn -> callback.(connection) end)
+    {:ok, listen_socket} = :gen_tcp.accept(socket)
+    Task.Supervisor.start_child(Server.TaskSupervisor, fn -> callback.(listen_socket) end)
     listen(callback, socket)
   end
 end

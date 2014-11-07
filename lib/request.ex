@@ -1,31 +1,38 @@
-defmodule HttpServer.Request do
-  alias HttpServer.Request
-
+defmodule Http.Request do
+  alias Http.Request
   @moduledoc """
-  Receives and parses data from an open connection
+  Receives and parses data from an open socket
   """
 
+  @doc false
+  def data(mock_data, :once) when is_bitstring(mock_data), do: {:ok, mock_data}
+
   @doc """
-  Recieve data from a Connection\n
+  Recieve data from a socket\n
 
-  ### Recieve data untill the connection closes
+  ### Recieve data until the socket closes
 
-      data = Request.data(connection)
+      data = Request.data(socket)
 
   ### Recieve data once
 
-      data = Request.data(connection, :once)
+      data = Request.data(socket, :once)
   """
-  def data(connection, loop \\ :until_closed, previous_bytes \\ []) do
-    case :gen_tcp.recv(connection, 0) do
+  def data(socket, loop \\ :until_closed, previous_bytes \\ []) do
+    case :gen_tcp.recv(socket, 0, 4000) do
       {:ok, bytes} when loop == :once -> {:ok, IO.iodata_to_binary(bytes)}
-      {:ok, bytes} -> data(connection, true, [previous_bytes, bytes])
+      {:ok, bytes} -> data(socket, true, [previous_bytes, bytes])
+      #{:error, :closed} when previous_bytes == [] -> {:error, :closed}
       {:error, :closed} -> {:ok, IO.iodata_to_binary(previous_bytes)}
     end
   end
 
   @doc """
   Recieves data once and parses basic header information and request fields\n
+
+  ## Examples
+      Request.header(socket).method
+      "GET"
 
   Name | Description
   --- | ---
@@ -34,9 +41,10 @@ defmodule HttpServer.Request do
   query | The unparsed query string ex: http://localhost/one/two/three?test=1 -> test=1
   fields | Accept, Cookies ...
   """
-  def header(connection) do
-    {:ok, header} = data(connection, false) # Receive only once
+  def header(socket) do
+    {:ok, header} = data(socket, :once) # Receive only once
     [basic_info | encoded_fields] = String.split(to_string(header), "\r\n")
+
     [method, url | _] = String.split(basic_info)
 
     fields = Enum.reduce(encoded_fields, %{}, fn(field, map) ->
@@ -56,7 +64,7 @@ defmodule HttpServer.Request do
     end
   end
   @doc ~S"""
-  Parses GET or POST parameters from a String into a Map\n
+  Parses GET or POST parameters from a string into a map\n
   Arrays can be denoted by adding '[]' to the end of the variable name
 
   ## Examples
