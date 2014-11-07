@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Http.Response</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">http v0.0.1 &rarr; <a href="overview.html">Overview</a> &rarr; Http &rarr; <a href="Http.Response.html">Response</a></div>
+
+      <h1>
+        Http.Response
+        
+      </h1>
+
+      <ul class="summary_links">
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+      </ul>
+
+      
+        <div id="moduledoc" class="docstring">
+          <p>Sends data to an open socket</p>
+
+        </div>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#close/2">close(socket, data \\ nil)</a></td>
+  
+    <td class="summary_synopsis"><p>Ends the response and optionally sends data before ending it</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#header/2">header(socket, fields \\ %{})</a></td>
+  
+    <td class="summary_synopsis"><p>Sends a header which includes the specified fields</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#header/3">header(socket, status_code, status_message)</a></td>
+  
+    <td class="summary_synopsis"><p>Sends a header with the a certain status code and status message</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#header/4">header(socket, status_code, status_message, fields)</a></td>
+  
+    <td class="summary_synopsis"><p>Sends a header with the a certain status code and status message
+that also includes header fields</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="close/2">
+    <span class="signature"><strong>close(socket, data \\ nil)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#close/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Ends the response and optionally sends data before ending it</p>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="header/2">
+    <span class="signature"><strong>header(socket, fields \\ %{})</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#header/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sends a header which includes the specified fields</p>
+<h2>Examples</h2>
+<pre><code>Response.header(socket, %{&quot;Content-Type:&quot; =&gt; &quot;text/html&quot;})</code></pre>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="header/3">
+    <span class="signature"><strong>header(socket, status_code, status_message)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#header/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sends a header with the a certain status code and status message</p>
+<h2>Examples</h2>
+<pre><code>Response.header(socket, 200, &quot;OK&quot;)</code></pre>
+</div>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="header/4">
+    <span class="signature"><strong>header(socket, status_code, status_message, fields)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#header/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sends a header with the a certain status code and status message
+that also includes header fields</p>
+<h2>Examples</h2>
+<pre><code>Response.header(socket, 200, &quot;OK&quot;, %{&quot;Content-Type&quot; =&gt; &quot;text/html&quot;})</code></pre>
+</div>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>
