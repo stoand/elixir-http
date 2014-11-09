@@ -52,6 +52,14 @@
         <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
         <table class="summary">
           <tr>
+  <td class="summary_signature"><a href="#client_header/4">client_header(socket, method, url, fields \\ %{})</a></td>
+  
+    <td class="summary_synopsis"><p>Sends a client header with the a certain status code and status message
+that also includes header fields</p>
+</td>
+  
+</tr>
+<tr>
   <td class="summary_signature"><a href="#close/2">close(socket, data \\ nil)</a></td>
   
     <td class="summary_synopsis"><p>Ends the response and optionally sends data before ending it</p>
@@ -59,23 +67,16 @@
   
 </tr>
 <tr>
-  <td class="summary_signature"><a href="#header/2">header(socket, fields \\ %{})</a></td>
+  <td class="summary_signature"><a href="#server_header/2">server_header(socket, fields \\ %{})</a></td>
   
-    <td class="summary_synopsis"><p>Sends a header which includes the specified fields</p>
+    <td class="summary_synopsis"><p>Sends a server header which includes the specified fields</p>
 </td>
   
 </tr>
 <tr>
-  <td class="summary_signature"><a href="#header/3">header(socket, status_code, status_message)</a></td>
+  <td class="summary_signature"><a href="#server_header/4">server_header(socket, status_code, status_message, fields \\ %{})</a></td>
   
-    <td class="summary_synopsis"><p>Sends a header with the a certain status code and status message</p>
-</td>
-  
-</tr>
-<tr>
-  <td class="summary_signature"><a href="#header/4">header(socket, status_code, status_message, fields)</a></td>
-  
-    <td class="summary_synopsis"><p>Sends a header with the a certain status code and status message
+    <td class="summary_synopsis"><p>Sends a server header with the a certain status code and status message
 that also includes header fields</p>
 </td>
   
@@ -90,6 +91,23 @@ that also includes header fields</p>
         <div id="functions_details" class="details_list">
           <h2>Functions</h2>
           <div class="detail">
+  <div class="detail_header" id="client_header/4">
+    <span class="signature"><strong>client_header(socket, method, url, fields \\ %{})</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#client_header/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Sends a client header with the a certain status code and status message
+that also includes header fields</p>
+<h2>Examples</h2>
+<pre><code>Response.client_header(socket, &quot;GET&quot;, &quot;/data/posts&quot;)</code></pre>
+</div>
+  
+</div>
+<div class="detail">
   <div class="detail_header" id="close/2">
     <span class="signature"><strong>close(socket, data \\ nil)</strong></span>
     <div class="detail_header_links">
@@ -104,51 +122,35 @@ that also includes header fields</p>
   
 </div>
 <div class="detail">
-  <div class="detail_header" id="header/2">
-    <span class="signature"><strong>header(socket, fields \\ %{})</strong></span>
+  <div class="detail_header" id="server_header/2">
+    <span class="signature"><strong>server_header(socket, fields \\ %{})</strong></span>
     <div class="detail_header_links">
       <span class="detail_type">(function)</span>
-      <a href="#header/2" class="detail_link" title="Link to this function">#</a>
+      <a href="#server_header/2" class="detail_link" title="Link to this function">#</a>
       <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
     </div>
   </div>
   
-  <div class="docstring"><p>Sends a header which includes the specified fields</p>
+  <div class="docstring"><p>Sends a server header which includes the specified fields</p>
 <h2>Examples</h2>
-<pre><code>Response.header(socket, %{&quot;Content-Type:&quot; =&gt; &quot;text/html&quot;})</code></pre>
+<pre><code>Response.server_header(socket, %{&quot;Content-Type:&quot; =&gt; &quot;text/html&quot;})</code></pre>
 </div>
   
 </div>
 <div class="detail">
-  <div class="detail_header" id="header/3">
-    <span class="signature"><strong>header(socket, status_code, status_message)</strong></span>
+  <div class="detail_header" id="server_header/4">
+    <span class="signature"><strong>server_header(socket, status_code, status_message, fields \\ %{})</strong></span>
     <div class="detail_header_links">
       <span class="detail_type">(function)</span>
-      <a href="#header/3" class="detail_link" title="Link to this function">#</a>
+      <a href="#server_header/4" class="detail_link" title="Link to this function">#</a>
       <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
     </div>
   </div>
   
-  <div class="docstring"><p>Sends a header with the a certain status code and status message</p>
-<h2>Examples</h2>
-<pre><code>Response.header(socket, 200, &quot;OK&quot;)</code></pre>
-</div>
-  
-</div>
-<div class="detail">
-  <div class="detail_header" id="header/4">
-    <span class="signature"><strong>header(socket, status_code, status_message, fields)</strong></span>
-    <div class="detail_header_links">
-      <span class="detail_type">(function)</span>
-      <a href="#header/4" class="detail_link" title="Link to this function">#</a>
-      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
-    </div>
-  </div>
-  
-  <div class="docstring"><p>Sends a header with the a certain status code and status message
+  <div class="docstring"><p>Sends a server header with the a certain status code and status message
 that also includes header fields</p>
 <h2>Examples</h2>
-<pre><code>Response.header(socket, 200, &quot;OK&quot;, %{&quot;Content-Type&quot; =&gt; &quot;text/html&quot;})</code></pre>
+<pre><code>Response.server_header(socket, 200, &quot;OK&quot;, %{&quot;content-type&quot; =&gt; &quot;text/html&quot;})</code></pre>
 </div>
   
 </div>
