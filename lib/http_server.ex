@@ -1,14 +1,12 @@
 defmodule Http.Server do
   alias Http.Server
-  alias Http.Request
-  alias Http.Response
   @moduledoc """
   Listens for HTTP connections and calls a callback once a client connects
   """
 
   @doc """
   Initialize the server
-
+ 
   ## Examples
       Server.start(fn(socket) ->
         Server.Response.header(socket)

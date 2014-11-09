@@ -1,5 +1,4 @@
 defmodule Http.Request do
-  alias Http.Request
   @moduledoc """
   Receives and parses data from an open socket
   """
@@ -28,12 +27,10 @@ defmodule Http.Request do
   end
 
   @doc """
-  Recieves data once and parses basic header information and request fields\n
-
+  Recieves data once and parses the client header information and request fields\n
   ## Examples
-      Request.header(socket).method
+      Request.client_header(socket).method
       "GET"
-
   Name | Description
   --- | ---
   method | GET, POST, PUT ...
@@ -41,13 +38,40 @@ defmodule Http.Request do
   query | The unparsed query string ex: http://localhost/one/two/three?test=1 -> test=1
   fields | Accept, Cookies ...
   """
-  def header(socket) do
+  def client_header(socket) do
     {:ok, header} = data(socket, :once) # Receive only once
     [basic_info | encoded_fields] = String.split(to_string(header), "\r\n")
 
     [method, url | _] = String.split(basic_info)
 
-    fields = Enum.reduce(encoded_fields, %{}, fn(field, map) ->
+    fields = parse_header_fields(encoded_fields)
+
+    case String.split(url, "?") do
+      [path, query] -> %{method: method, fields: fields, path: path, query: query}
+      [path] -> %{method: method, fields: fields, path: path, query: nil}
+    end
+  end
+
+  @doc """
+  Recieves data once and parses the client header information and request fields\n
+  ## Examples
+      Request.server_header(socket).status_code
+      
+  Name | Description
+  --- | ---
+  status_code | 200, 400, 404 ...
+  status_message |  OK, Invalid Url ...
+  fields | content-type, content-length ...
+  """
+  def server_header(socket) do
+    {:ok, header} = data(socket, :once)
+    [_http_version, status_code | status_message_and_encoded_fields] = String.split(header, " ")
+    [status_message | encoded_fields] = String.split(Enum.join(status_message_and_encoded_fields, " "), "\n") 
+    %{status_code: String.to_integer(status_code), status_message: status_message, fields: parse_header_fields(encoded_fields)}
+  end
+
+  def parse_header_fields(encoded_fields) do
+    Enum.reduce(encoded_fields, %{}, fn(field, map) ->
       case field do
         "" -> map
         _ ->
@@ -57,12 +81,8 @@ defmodule Http.Request do
         end
       end
     end)
-
-    case String.split(url, "?") do
-      [path, query] -> %{:method => method, :fields => fields, :path => path, :query => query}
-      [path] -> %{:method => method, :fields => fields, :path => path, :query => nil}
-    end
   end
+
   @doc ~S"""
   Parses GET or POST parameters from a string into a map\n
   Arrays can be denoted by adding '[]' to the end of the variable name
@@ -71,8 +91,6 @@ defmodule Http.Request do
       iex> Request.parse_params "a=0&b[]=1&b[]=2"
       %{"a" => "0", "b" => ["2", "1"]}
   """ 
-  def parse_params(nil), do: %{}
-  def parse_params(""), do: %{}
   def parse_params(encoded_params) do
     key_value_pairs = String.split(encoded_params,"&")
     Enum.reduce(key_value_pairs, %{}, fn(key_value_pair, map) ->
@@ -82,7 +100,7 @@ defmodule Http.Request do
           # ?arr[]=1&arr[]=2&arr[]=3  ==  [1, 2, 3]
           case String.ends_with?(key, "[]") do
             true ->
-              trimmed_key = String.replace(key, "[]", "")
+              trimmed_key = String.downcase(String.replace(key, "[]", ""))
               map = Map.put_new(map, trimmed_key, [])
               Map.put(map, trimmed_key, [value | map[trimmed_key]])
             _ ->

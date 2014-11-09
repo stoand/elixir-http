@@ -17,7 +17,7 @@ defmodule Http.Mixfile do
   # Simple example server
   def start(_type, _args) do
     Server.start(fn(socket) ->
-      Response.header(socket)
+      Response.server_header(socket)
       Response.close(socket, "The Elixir server works!")
     end, 3030)
   end

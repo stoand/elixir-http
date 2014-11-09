@@ -1,44 +1,45 @@
 defmodule Http.Response do
-  alias Http.Response
-
   @moduledoc """
   Sends data to an open socket
   """
 
   @doc """
-  Sends a header which includes the specified fields
+  Sends a server header which includes the specified fields
 
   ## Examples
-      Response.header(socket, %{"Content-Type:" => "text/html"})
+      Response.server_header(socket, %{"Content-Type:" => "text/html"})
   """
-  def header(socket, fields \\ %{}),
-    do: header(socket, 200, "OK", fields)
+  def server_header(socket, fields \\ %{}),
+    do: server_header(socket, 200, "OK", fields)
 
   @doc """
-  Sends a header with the a certain status code and status message
-  
-  ## Examples
-      Response.header(socket, 200, "OK")
-  """
-  def header(socket, status_code, status_message),
-    do: header(socket, status_code, status_message, %{})
-
-
-  @doc """
-  Sends a header with the a certain status code and status message
+  Sends a server header with the a certain status code and status message
   that also includes header fields
 
   ## Examples
-      Response.header(socket, 200, "OK", %{"Content-Type" => "text/html"})
+      Response.server_header(socket, 200, "OK", %{"content-type" => "text/html"})
   """
-  def header(socket, status_code, status_message, fields) do
-    encoded_fields = fields
-    |> Map.to_list
+  def server_header(socket, status_code, status_message, fields \\ %{}) do
+    data(socket, "HTTP/1.0 #{status_code} #{status_message}#{encode_fields(fields)}\n\n")
+  end
+
+  @doc """
+  Sends a client header with the a certain status code and status message
+  that also includes header fields
+
+  ## Examples
+      Response.client_header(socket, "GET", "/data/posts")
+  """
+  def client_header(socket, method, url, fields \\ %{}) do
+    data(socket, "#{method} #{url} HTTP/1.1\r#{encode_fields(fields)}")
+  end
+
+  defp encode_fields(fields) do
+    fields |> Map.to_list
     |> Enum.map_join(fn(field) ->
       {key, value} = field
-       "\n" <> key <> ": " <> to_string(value)
+       "\n" <> String.downcase(key) <> ": " <> to_string(value)
     end)
-    data(socket, "HTTP/1.0 #{status_code} #{status_message}#{encoded_fields}\n\n")
   end
 
   @doc """

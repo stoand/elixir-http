@@ -12,4 +12,11 @@ defmodule Http.Client do
   def connect(host, port) do
     :gen_tcp.connect(host, port, [:binary, packet: :line, active: false])
   end
+
+  @doc """
+  Close a connection
+  """
+  def close(socket) do
+    :gen_tcp.close(socket)
+  end
 end
