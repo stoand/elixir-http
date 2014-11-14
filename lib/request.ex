@@ -91,6 +91,7 @@ defmodule Http.Request do
       iex> Request.parse_params "a=0&b[]=1&b[]=2"
       %{"a" => "0", "b" => ["2", "1"]}
   """ 
+  def parse_params(nil), do: %{}
   def parse_params(encoded_params) do
     key_value_pairs = String.split(encoded_params,"&")
     Enum.reduce(key_value_pairs, %{}, fn(key_value_pair, map) ->
