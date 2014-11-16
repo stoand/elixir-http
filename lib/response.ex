@@ -7,7 +7,7 @@ defmodule Http.Response do
   Sends a server header which includes the specified fields
 
   ## Examples
-      Response.server_header(socket, %{"Content-Type:" => "text/html"})
+      Response.server_header(socket, %{"content-type" => "text/html"})
   """
   def server_header(socket, fields \\ %{}),
     do: server_header(socket, 200, "OK", fields)

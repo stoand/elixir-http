@@ -11,17 +11,17 @@ defmodule Http.Request do
 
   ### Recieve data until the socket closes
 
-      data = Request.data(socket)
+      {:ok, data} = Request.data(socket)
 
   ### Recieve data once
 
-      data = Request.data(socket, :once)
+      {:ok, data} = Request.data(socket, :once)
   """
   def data(socket, loop \\ :until_closed, previous_bytes \\ []) do
     case :gen_tcp.recv(socket, 0, 4000) do
       {:ok, bytes} when loop == :once -> {:ok, IO.iodata_to_binary(bytes)}
       {:ok, bytes} -> data(socket, true, [previous_bytes, bytes])
-      #{:error, :closed} when previous_bytes == [] -> {:error, :closed}
+      {:error, :closed} when previous_bytes == [] -> {:error, :closed}
       {:error, :closed} -> {:ok, IO.iodata_to_binary(previous_bytes)}
     end
   end
@@ -96,6 +96,7 @@ defmodule Http.Request do
     key_value_pairs = String.split(encoded_params,"&")
     Enum.reduce(key_value_pairs, %{}, fn(key_value_pair, map) ->
       case String.split(key_value_pair, "=") do
+        ["" | _] -> map
         [key, value] ->
           # Arrays in params may be encoded as:
           # ?arr[]=1&arr[]=2&arr[]=3  ==  [1, 2, 3]
